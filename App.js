@@ -19,9 +19,9 @@ db.mongoose.connect(db.url).then((result) => {
     console.log(err);
 });
 
-
-process.env.ACCESS_TOKEN_SECRET = "448e0448fa31dd1c780027d4342b4dac8600b7eb61c7e809f2ffc10cafed8aa643fd670e9db4c6e7d57e6fb1175cbaa1beedd74d07f61b4b4121b07dd72feb06";
-process.env.REFRESH_TOKEN_SECRET = "e87ca35a9ec18fe1965121767d07c8544271df114e449fb4dca79aecfaa094cade4386834ccd8e314c89ca7ca2a705ebe115e8285a507fdd8ab2c8cf503bd2be";
+// Use environment variables for secrets
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 // Allow Credentials
 app.use(credentials);
