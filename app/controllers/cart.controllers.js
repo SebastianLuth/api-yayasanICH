@@ -5,7 +5,7 @@ const User = db.users;
 const midtransClient = require('midtrans-client');
 
 const snap = new midtransClient.Snap({
-    isProduction: true,
+    isProduction: false,
     serverKey: process.env.MIDTRANS_SERVER_KEY
 });
 
