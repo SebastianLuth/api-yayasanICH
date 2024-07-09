@@ -1,31 +1,19 @@
 const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2; 
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-const storage = multer.diskStorage({
-  destination: './uploads/image',
-  filename: (req, file, cb) => {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-  },
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'uploads', // Folder di Cloudinary
+        allowedFormats: ['jpeg', 'jpg', 'png'],
+        public_id: (req, file) => file.filename + '-' + Date.now(),
+    },
 });
 
 const uploadImage = multer({
-  storage: storage,
-  limits: { fileSize: 3000000 }, // 3MB limit
-  fileFilter: (req, file, cb) => {
-    checkFileType(file, cb);
-  },
+    storage: storage,
+    limits: { fileSize: 3000000 }, // 3MB limit
 }).single('image');
-
-function checkFileType(file, cb) {
-  const filetypes = /jpeg|jpg|png/;
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb('Error: Images Only!');
-  }
-}
 
 module.exports = uploadImage;
