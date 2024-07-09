@@ -212,48 +212,44 @@ exports.downloadModuleFile = async (req, res) => {
     const userId = req.user.id;
     const { moduleId } = req.params;
 
-    console.log(`User ID: ${userId}`);
-    console.log(`Module ID: ${moduleId}`);
-
     const user = await Users.findById(userId).populate({
         path: 'purchasedCourses.modules.moduleId',
         model: 'modules'
     }).exec();
 
     if (!user) {
-        console.log('User not found');
         return res.status(404).send({ message: "User not found" });
     }
 
-    console.log(`User found: ${user.username}`);
-    
     const hasAccess = user.purchasedCourses.some(course => {
         return course.modules.some(module => {
-          if (!module.moduleId) {
-            return false;
-        }
-            console.log(`Checking module: ${module.moduleId} with access: ${module.accessGranted}`);
             return module.moduleId._id.toString() === moduleId && module.accessGranted;
         });
     });
 
     if (!hasAccess) {
-        console.log('Access denied');
         return res.status(403).send({ message: "Access denied" });
     }
 
     const module = await Modules.findById(moduleId);
 
     if (!module || !module.pdf_url) {
-        console.log('File not found');
         return res.status(404).send({ message: "File not found" });
     }
 
-   const response = await axios.get(module.pdf_url, { responseType: 'stream' });
-    response.data.pipe(res);
+    const pdfUrl = module.pdf_url;
+    const response = await axios({
+        url: pdfUrl,
+        method: 'GET',
+        responseType: 'stream'
+    });
 
-} catch (error) {
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=${module.judul}.pdf`);
+    
+    response.data.pipe(res);
+  } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message });
-}
+  }
 };
