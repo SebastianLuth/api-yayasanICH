@@ -228,6 +228,9 @@ exports.downloadModuleFile = async (req, res) => {
     
     const hasAccess = user.purchasedCourses.some(course => {
         return course.modules.some(module => {
+          if (!module.moduleId) {
+            return false;
+        }
             console.log(`Checking module: ${module.moduleId} with access: ${module.accessGranted}`);
             return module.moduleId._id.toString() === moduleId && module.accessGranted;
         });
@@ -245,9 +248,7 @@ exports.downloadModuleFile = async (req, res) => {
         return res.status(404).send({ message: "File not found" });
     }
 
-    const filePath = path.resolve('uploads', 'pdf', path.basename(module.pdf_url));
-    console.log(`File path: ${filePath}`);
-    res.download(filePath);
+    res.redirect(module.pdf_url);
 } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message });
