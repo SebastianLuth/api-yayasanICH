@@ -5,7 +5,7 @@ module.exports = mongoose => {
         description : String,
         imageUrl : String,
         averageRating: Number,
-        videoUrl: String,
+        id: String,
         consultationInclude : [String],
     });
 
