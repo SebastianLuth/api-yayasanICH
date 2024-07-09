@@ -12,6 +12,7 @@ exports.findAll = (req, res) => {
         })
 }
 
+
 exports.findOne = (req, res) => {
     Product.findOne({
             name: req.params.name
