@@ -248,8 +248,9 @@ exports.downloadModuleFile = async (req, res) => {
         return res.status(404).send({ message: "File not found" });
     }
 
-    // Download the file from Cloudinary
-   res.redirect(module.pdf_url)
+   const response = await axios.get(module.pdf_url, { responseType: 'stream' });
+    response.data.pipe(res);
+
 } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message });
