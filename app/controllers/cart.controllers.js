@@ -4,11 +4,9 @@ const Product = db.products;
 const User = db.users;
 const midtransClient = require('midtrans-client');
 
-
-const MIDTRANS_SERVER_KEY = 'SB-Mid-server-AWAcsvwHdh-ynj6K8HpKGEZo'
 const snap = new midtransClient.Snap({
-    isProduction: false,
-    serverKey: MIDTRANS_SERVER_KEY
+    isProduction: true,
+    serverKey: process.env.MIDTRANS_SERVER_KEY
 });
 
 exports.addToCart = async (req, res) => {
