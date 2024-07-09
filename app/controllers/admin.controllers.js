@@ -158,14 +158,19 @@ exports.addProduct = async (req, res) => {
 };
 exports.addNews = async (req, res) => {
     try {
-        console.log(req.files); // Debug log
-        const { judul, short_description, konten, tanggal_dibuat } = req.body;
+        //console.log(req.files); // Debug log
+        const { 
+            judul, 
+            short_description, 
+            konten, 
+            tanggal_dibuat 
+        } = req.body;
 
         if (!judul || !short_description || !konten || !tanggal_dibuat) {
             return res.status(400).send({ message: 'All fields are required.' });
         }
 
-        const image_one = req.file ? `/uploads/image/${req.file.filename}`: null;
+        const image_one = req.file ? req.file.path : null;
 
         const newNews = new News({
             judul,
