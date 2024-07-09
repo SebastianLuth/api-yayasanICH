@@ -249,23 +249,7 @@ exports.downloadModuleFile = async (req, res) => {
     }
 
     // Download the file from Cloudinary
-    const axios = require('axios');
-    const response = await axios({
-      url: module.pdf_url,
-      method: 'GET',
-      responseType: 'stream',
-      auth: {
-        username: process.env.CLOUDINARY_API_KEY,
-        password: process.env.CLOUDINARY_API_SECRET
-      }
-    });
-
-    // Set the headers for the response
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${module.judul}.pdf"`);
-
-    // Pipe the Cloudinary response to the client
-    response.data.pipe(res);
+   res.redirect(module.pdf_url)
 } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message });
