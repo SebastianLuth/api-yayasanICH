@@ -8,8 +8,16 @@ const credentials = require('./app/middleware/credentials');
 const errorHandlerMiddleware = require('./app/middleware/error_handler');
 const authenticationMiddleware = require('./app/middleware/authentication');
 const authMiddleware = require('./app/middleware/auth');
+const cloudinary = require('cloudinary').v2; 
  
 const PORT = process.env.PORT || 8080;
+
+//config ke key dari cloudinary account
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 //Connecting DB
 const db = require('./app/models');
@@ -47,7 +55,7 @@ app.use(errorHandlerMiddleware);
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'Hello Ini api yayasan ICH ©Sebastian_Luth'
+        message: 'Hello Ini api dari yayasan ICH ©Sebastian_Luth'
     });
 });
 
