@@ -7,6 +7,7 @@ const Modules = db.modules;
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const session = require('express-session')
+const axios = require('axios')
 
 
 exports.register = async (req, res) => {
