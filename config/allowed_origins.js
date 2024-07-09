@@ -5,7 +5,7 @@ const origins = [
     'http://localhost:8081',
     'http://127.0.0.1:5173',
     'https://yayasan-ich.vercel.app',
-    *
+    '*'
   ]
   
 module.exports = origins;
