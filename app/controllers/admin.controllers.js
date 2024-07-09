@@ -186,3 +186,32 @@ exports.addNews = async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 };
+exports.addConsultation = async (req, res) => {
+    try {
+        const {
+            name,
+            header,
+            description,
+            averageRating,
+            id,
+            consultationInclude,
+        } = req.body;
+        
+        const imageUrl = req.file ? req.file.path : null;
+
+        const newConsultation = new Consultation({
+            name,
+            header,
+            description,
+            imageUrl,
+            averageRating,
+            id,
+            consultationInclude: JSON.parse(consultationInclude),
+        });
+
+        await newConsultation.save();
+        res.status(201).send(newConsultation);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
+    }
+};
