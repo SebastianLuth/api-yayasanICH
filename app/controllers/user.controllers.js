@@ -248,7 +248,7 @@ exports.downloadModuleFile = async (req, res) => {
         return res.status(404).send({ message: "File not found" });
     }
 
-    res.redirect(module.pdf_url);
+    res.download(module.pdf_url);
 } catch (error) {
     console.error(error);
     res.status(500).send({ message: error.message });
