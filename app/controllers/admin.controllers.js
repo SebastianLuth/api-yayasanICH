@@ -7,6 +7,7 @@ const News = db.news;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
 exports.adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -75,19 +76,6 @@ exports.removeModuleFromUser = async (req, res) =>{
         res.status(500).send({message: error.message})
     }
 };
-exports.addModule = async (req, res) => {
-    try {
-        // console.log(req.body);
-        // console.log(req.file);
-        const { judul, deskripsi, penulis, tanggal_dibuat, bab } = req.body;
-        const pdf_url = req.file ? `/uploads/pdf/${req.file.filename}` : null;
-        const newModule = new Module({ judul, deskripsi, penulis, tanggal_dibuat, bab: JSON.parse(bab), pdf_url });
-        await newModule.save();
-        res.status(201).send(newModule);
-    } catch (error) {
-        res.status(500).send({ message: error.message });
-    }
-};
 exports.removeModule = async (req,res) => {
     try{
         const moduleId = req.params.id;
@@ -100,42 +88,72 @@ exports.removeModule = async (req,res) => {
         res.status(500).send({ message: error.message });
     }
 };
-exports.addProduct = async (req, res) => {
+exports.addModule = async (req, res) => {
     try {
-      const {
-        code,
-        name,
-        price,
-        description,
-        longDescription,
-        averageRating,
-        videoUrl,
-        willLearn,
-        materialInclude,
-        targetAudience,
-        modules,
-      } = req.body;
-      const imageUrl = req.file ? `/uploads/image/${req.file.filename}` : null;
-
-      const newProduct = new Product({
-        code,
-        name,
-        price,
-        description,
-        longDescription,
-        imageUrl,
-        averageRating,
-        videoUrl,
-        willLearn: JSON.parse(willLearn),
-        materialInclude: JSON.parse(materialInclude),
-        targetAudience: JSON.parse(targetAudience),
-        modules: JSON.parse(modules),
-      });
-  
-      await newProduct.save();
-      res.status(201).send(newProduct);
+        // console.log(req.body);//Debug log untuk memastikan field body sesuai
+        // console.log(req.file);
+        const { 
+            judul, 
+            deskripsi, 
+            penulis, 
+            tanggal_dibuat, 
+            bab 
+        } = req.body;
+        const pdf_url = req.file ? req.file.path : null;
+        const newModule = new Module({ 
+            judul, 
+            deskripsi, 
+            penulis, 
+            tanggal_dibuat, 
+            bab: JSON.parse(bab), 
+            pdf_url 
+        });
+        
+        await newModule.save();
+        res.status(201).send(newModule);
     } catch (error) {
-      res.status(500).send({ message: error.message });
+        res.status(500).send({ message: error.message });
+    }
+};
+exports.addProduct = async (req, res) => {
+    //console.log(req.body); //Debug log untuk memastikan field body sesuai
+    //console.log(req.file);
+    try {
+        const {
+            code,
+            name,
+            price,
+            description,
+            longDescription,
+            averageRating,
+            videoUrl,
+            willLearn,
+            materialInclude,
+            targetAudience,
+            modules,
+        } = req.body;
+        
+        const imageUrl = req.file ? req.file.path : null;
+
+        const newProduct = new Product({
+            code,
+            name,
+            price,
+            description,
+            longDescription,
+            imageUrl,
+            averageRating,
+            videoUrl,
+            willLearn: JSON.parse(willLearn),
+            materialInclude: JSON.parse(materialInclude),
+            targetAudience: JSON.parse(targetAudience),
+            modules: JSON.parse(modules),
+        });
+
+        await newProduct.save();
+        res.status(201).send(newProduct);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
     }
 };
 exports.addNews = async (req, res) => {
