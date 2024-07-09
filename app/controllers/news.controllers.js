@@ -1,6 +1,7 @@
 const db = require('../models')
 const News = db.news
 
+
 exports.findAll = (req, res) => {
     console.log("Find all news");
     News.find().sort({ tanggal_dibuat: -1 }).limit(10)
