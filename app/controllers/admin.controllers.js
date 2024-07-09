@@ -1,6 +1,7 @@
 const db = require('../models');
 const Admin = db.users;
 const Product = db.products;
+const Consultation = db.consultation
 const Module = db.modules;
 const  Order = db.carts;
 const News = db.news;
