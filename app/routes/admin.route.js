@@ -9,6 +9,7 @@ module.exports= (app)=> {
     router.post('/login', adminControllers.adminLogin);
     router.post('/modules', adminAuth, upload, adminControllers.addModule);
     router.post('/products', adminAuth, uploadImage, adminControllers.addProduct);
+    router.post('/consultation', adminAuth, uploadImage, adminControllers.addConsultation);
     router.post('/addNews', adminAuth, uploadImage,adminControllers.addNews);
     router.get('/orders', adminAuth, adminControllers.viewOrders);
     router.get('/modules/getAllModules', adminAuth, adminControllers.viewsAllModules);
