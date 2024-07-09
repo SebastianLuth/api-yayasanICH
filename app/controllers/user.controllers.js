@@ -253,7 +253,11 @@ exports.downloadModuleFile = async (req, res) => {
     const response = await axios({
       url: module.pdf_url,
       method: 'GET',
-      responseType: 'stream'
+      responseType: 'stream',
+      auth: {
+        username: process.env.CLOUDINARY_API_KEY,
+        password: process.env.CLOUDINARY_API_SECRET
+      }
     });
 
     // Set the headers for the response
